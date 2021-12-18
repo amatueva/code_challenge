@@ -13,8 +13,9 @@ import (
 
 func main() {
 	ctx := context.Background()
+	enableGracefulShutdown(ctx)
 
-	query, err := ui.PromptUser()
+	query, err := ui.PromptUser(ctx)
 	if err != nil {
 		fmt.Println("Goodbye")
 		return
@@ -23,12 +24,13 @@ func main() {
 	search.Search(ctx, query)
 }
 
-func enableGracefulShutdown() {
+func enableGracefulShutdown(ctx context.Context) {
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
 		sig := <-sigs
-		fmt.Println("got a signal - ", sig)
+		ctx.Done()
+		fmt.Println("got a signal, context cancelled - ", sig)
 	}()
 	fmt.Println("awaiting signal")
 }

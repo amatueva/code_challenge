@@ -1,32 +1,32 @@
 package ui
 
 import (
+	"context"
 	"fmt"
 
 	"main.go/internal/types"
 	"main.go/internal/validation"
 )
 
-func PromptUser() (types.Query, error) {
-
+func PromptUser(ctx context.Context) (types.Query, error) {
 	var dataset string
 	var field string
 	var value string
 
-	dataset = promptForDataset()
+	dataset = promptForDataset(ctx)
 
 	if dataset == "users" {
-		field = promptForUserField()
+		field = promptForUserField(ctx)
 	} else {
-		field = promptForTicketField()
+		field = promptForTicketField(ctx)
 	}
 
-	value = promptForSearchValue()
+	value = promptForSearchValue(ctx)
 
 	return types.Query{Dataset: dataset, Field: field, Value: value}, nil
 }
 
-func promptForDataset() string {
+func promptForDataset(ctx context.Context) string {
 	for {
 		var dataset string
 		fmt.Println("Are you searching for tickets or users?")
@@ -37,8 +37,12 @@ func promptForDataset() string {
 	}
 }
 
-func promptForUserField() string {
+func promptForUserField(ctx context.Context) string {
 	for {
+		go func() {
+			<-ctx.Done()
+			fmt.Println("context canceled. Exiting")
+		}()
 		var field string
 		fmt.Println("Type user property that you're searching")
 		fmt.Scanln(&field)
@@ -48,8 +52,12 @@ func promptForUserField() string {
 	}
 }
 
-func promptForTicketField() string {
+func promptForTicketField(ctx context.Context) string {
 	for {
+		go func() {
+			<-ctx.Done()
+			fmt.Println("context canceled. Exiting")
+		}()
 		var field string
 		fmt.Println("Type ticket property that you're searching")
 		fmt.Scanln(&field)
@@ -59,8 +67,12 @@ func promptForTicketField() string {
 	}
 }
 
-func promptForSearchValue() string {
+func promptForSearchValue(ctx context.Context) string {
 	for {
+		go func() {
+			<-ctx.Done()
+			fmt.Println("context canceled. Exiting")
+		}()
 		var value string
 		fmt.Println("Type value you're seacring for")
 		fmt.Scanln(&value)
