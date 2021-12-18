@@ -28,4 +28,4 @@ install_devtools:
 	go install github.com/githubnemo/CompileDaemon
 
 test:
-	CGO_ENABLED=1 gotestsum -- $(TEST_FLAGS) $(TEST_TARGET) -timeout 5s
+	go test ./...

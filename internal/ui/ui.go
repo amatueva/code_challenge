@@ -28,6 +28,10 @@ func PromptUser(ctx context.Context) (types.Query, error) {
 
 func promptForDataset(ctx context.Context) string {
 	for {
+		go func() {
+			<-ctx.Done()
+			fmt.Println("context canceled. Exiting")
+		}()
 		var dataset string
 		fmt.Println("Are you searching for tickets or users?")
 		fmt.Scanln(&dataset)
