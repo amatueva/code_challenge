@@ -15,13 +15,10 @@ func main() {
 	ctx := context.Background()
 
 	query, err := ui.PromptUser()
-
 	if err != nil {
 		fmt.Println("Goodbye")
 		return
 	}
-
-	// validation
 
 	search.Search(ctx, query)
 }

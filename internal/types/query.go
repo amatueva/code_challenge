@@ -1,12 +1,12 @@
 package types
 
-type Database struct {
-	Users   []User
-	Tickets []Ticket
+type Result struct {
+	User   User
+	Ticket Ticket
 }
 
 type Query struct {
 	Dataset string
 	Field   string
-	Value   interface{}
+	Value   string
 }

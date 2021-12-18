@@ -2,60 +2,25 @@ package search
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"os"
 
+	"main.go/internal/loader"
 	"main.go/internal/types"
 )
 
 func Search(ctx context.Context, query types.Query) {
-	tickets := loadTickets(ctx)
-	users := loadUsers(ctx)
-	fmt.Println(users, tickets)
-	// do the actual search
+	switch query.Dataset {
+	case "users":
+		users := loader.LoadUsers(ctx)
+		for _, u := range users {
+			u.FindOne(query.Field, query.Value)
+		}
+	case "tickets":
+		tickets := loader.LoadTickets(ctx)
+		for _, t := range tickets {
+			t.FindOne(query.Field, query.Value)
+		}
+	default:
+		fmt.Println("something is wrong")
+	}
 }
-
-func loadTickets(ctx context.Context) []types.Ticket {
-	jsonFile, err := os.Open("data/tickets.json")
-	if err != nil {
-		panic(err)
-	}
-
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-
-	var tickets []types.Ticket
-
-	err = json.Unmarshal(byteValue, &tickets)
-	if err != nil {
-		panic(err)
-	}
-
-	return tickets
-}
-
-func loadUsers(ctx context.Context) []types.User {
-	jsonFile, err := os.Open("data/users.json")
-	if err != nil {
-		panic(err)
-	}
-
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-
-	var users []types.User
-
-	err = json.Unmarshal(byteValue, &users)
-	if err != nil {
-		panic(err)
-	}
-
-	return users
-}
-
-// func findOne(query types.Query) Record {
-// 	if index[query] != nil {
-// 		return index[query][0]
-// 	}
-// 	return nil
-// }
