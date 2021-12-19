@@ -15,9 +15,11 @@ type Ticket struct {
 	Tags       []string `json:"tags"`
 }
 
+type TicketRecords []Ticket
+
 var TicketFields []string = []string{"Id", "CreatedAt", "Type", "Subject", "AssigneeId", "Tags"}
 
-func (t Ticket) FindOne(field string, value string) {
+func (t TicketRecords) FindOne(field string, value string) {
 	e := reflect.ValueOf(&t).Elem()
 
 	for i := 0; i < e.NumField(); i++ {

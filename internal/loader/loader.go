@@ -9,17 +9,34 @@ import (
 	"main.go/internal/types"
 )
 
-func LoadTickets(ctx context.Context) []types.Ticket {
-	jsonFile, err := os.Open("data/tickets.json")
+func LoadData(ctx context.Context, query types.Query) types.Record {
+	var jsonFile *os.File
+	var err error
+	var records types.Record
+
+	switch query.Dataset {
+	case "users":
+		jsonFile, err = os.Open("data/users.json")
+		byteValue, _ := ioutil.ReadAll(jsonFile)
+		records = loadUsers(byteValue)
+	case "tickets":
+		jsonFile, err = os.Open("data/tickets.json")
+		byteValue, _ := ioutil.ReadAll(jsonFile)
+		records = loadTickets(byteValue)
+	default:
+	}
+
 	if err != nil {
 		panic(err)
 	}
 
-	byteValue, _ := ioutil.ReadAll(jsonFile)
+	return records
+}
 
-	var tickets []types.Ticket
+func loadTickets(data []byte) types.Record {
+	var tickets types.TicketRecords
 
-	err = json.Unmarshal(byteValue, &tickets)
+	err := json.Unmarshal(data, &tickets)
 	if err != nil {
 		panic(err)
 	}
@@ -27,17 +44,10 @@ func LoadTickets(ctx context.Context) []types.Ticket {
 	return tickets
 }
 
-func LoadUsers(ctx context.Context) []types.User {
-	jsonFile, err := os.Open("data/users.json")
-	if err != nil {
-		panic(err)
-	}
+func loadUsers(data []byte) types.Record {
+	var users types.UserRecords
 
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-
-	var users []types.User
-
-	err = json.Unmarshal(byteValue, &users)
+	err := json.Unmarshal(data, &users)
 	if err != nil {
 		panic(err)
 	}

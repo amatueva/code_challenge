@@ -15,7 +15,9 @@ type User struct {
 
 var UserFields []string = []string{"Id", "Name", "CreatedAt", "Verified"}
 
-func (u User) FindOne(field string, value string) {
+type UserRecords []User
+
+func (u UserRecords) FindOne(field string, value string) {
 	e := reflect.ValueOf(&u).Elem()
 
 	for i := 0; i < e.NumField(); i++ {
