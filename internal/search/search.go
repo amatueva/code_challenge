@@ -7,7 +7,7 @@ import (
 	"main.go/internal/types"
 )
 
-func Search(ctx context.Context, query types.Query) {
+func Search(ctx context.Context, query types.Query) types.Record {
 	records := loader.LoadData(ctx, query)
-	records.FindOne(query.Field, query.Value)
+	return records.FindOne(query.Field, query.Value)
 }
