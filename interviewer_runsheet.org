@@ -1,0 +1,144 @@
+#+OPTIONS: ^:nil num:nil
+#+TITLE: Live Coding Interview Runsheet
+#+SUBTITLE: Search Challenge
+#+AUTHOR: Aysa Matueva
+#+AUTHOR: Logan Campbell
+
+This runsheet outlines a live coding / pairing interview round. It uses a
+simplified search challenge that should be familiar to most Zendesk staff. A
+project skeleton (ruby, js) is provided in order to skip past the time consuming
+setup process.
+
+* Introductions
+   
+  Introduce yourselves, maybe your role, and how long you’ve been at Zendesk.
+  Try to make the candidate comfortable so that they can start the challenge
+  quickly.
+
+* Starting the challenge
+   
+  1. Ask the candidate to clone the project skeleton:
+
+     - Ruby
+     - Golang
+
+  2. Explain the problem:
+
+
+  1. We would like you to implement a search function for these two datasets.
+
+     1. The search query should specify:
+
+        1. The dataset to search
+
+        2. The field within the dataset to match on
+
+        3. The value we would like to match
+
+     2. No user interface is required.
+
+     3. Due to time constraints tests are optional. Feel free to write tests,
+        if you like. And please still write testable code. 
+
+     4. We don’t expect you to know your programming language perfectly. Feel
+        free to google and to ask us questions like we were pairing. 
+
+  2. Explain that we will keep extending the problem until we run out of time.
+     They are not expected to finish the problem. We’re trying to find out
+     how they code and what it’ll be like to work together.
+
+  3. Confirm their environment is running
+
+     1. The candidate should run ~./scripts/run-tests~ and see a failing test.
+
+     2. The skeleton does not use any gems outside of the standard library
+        and should work with any version of ruby. 
+
+     3. Ask them to begin implementing.
+
+* Extending the challenge
+
+  These are a set of extensions that can be given to a candidate. We do not
+  expect them to complete all of the extensions.
+
+** Allow for OR based search
+
+   Extend the search function to allow for searching for any record that
+   matches one or more query values.
+
+   An example API may use:
+
+   An array argument: ~search("users", "_id", [1,2])~
+
+   String parsing: ~search("users", "_id", "1 OR 2")~
+
+   Builder pattern: ~dataset("users").field("_id").value(1).value(2).search()~
+
+   These are all acceptable.
+
+   Check whether their solution would produce duplicate results if a query is
+   done on ~tags~ that would match a ~Ticket~ twice.
+
+   If the bug exists, ask the candidate to fix it.
+
+** Include related data
+
+   When searching for a ~Ticket~ each ticket *should* include the assignee. The
+   assignee is a ~User~ who’s ~_id~ matches the ~assignee_id~ field on the
+   ~Ticket~ .
+
+   When searching for a ~User~ each user *may* include tickets assigned to the user.
+   This requires searching for tickets that have an ~assignee_id~ field that
+   matches the ~_id~ of the ~User~.
+
+   Beware: An infinite loop may occur if a ticket includes a user that includes
+   a ticket that includes a user, etc.
+
+** Search for individual tags
+
+   The tags field on a ~Ticket~ has many values. Ask the candidate to allow for a
+   query that includes any one of those values to match with the ~Ticket~.
+
+** Index the data
+
+   Initially most candidates will likely implement search using a loop or a
+   function like ~filter~. This type of search will get slower linearly as more
+   data is added.
+
+   1. Ask the candidate how they would make the search complete in a constant
+      time no matter the size of the data (assuming it all fits in memory). 
+
+      1. If they suggest using an external tool like a database then ask for an
+         internal solution.
+
+      2. We expect a solution that uses a reverse index using a ~Hash~.
+
+   2. Ask them to implement this solution.
+
+** Refactor and add tests
+
+   If the candidate completes all of these extensions please ask them to
+   refactor their solution and improve their test coverage. If they’re
+   comfortable with their code’s structure and test coverage then move on to
+   covering error handling and any edge cases you see that have been missed.
+   Finally ask for them to add any documentation to classes and methods they’ve
+   implemented.
+
+* Questions from the candidate
+
+  Allow 5 to 10 minutes at the end of the interview for the candidate to ask
+  any questions of you about the role, or what it’s like to work at Zendesk.
+  When the interview runs out of time, thank them and say goodbye.
+
+* Example Solutions
+
+  This Ruby solution implements all of the extensions. There is no error
+  handling, minimal program structure, and minimal testing. It was completed
+  in one hour, working alone, by an experienced ruby developer familiar with
+  the problem.
+
+  This Javascript solution was implemented by the same engineer in a mock
+  interview. It includes associated data and begins, but does not complete,
+  indexing. There is no error handling, even less program structure, and
+  minimal testing.
+
