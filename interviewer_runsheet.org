@@ -63,20 +63,20 @@ setup process.
    Extend the search function to allow for searching for any record that
    matches one or more query values.
 
-   An example API may use:
+   1. An example API may use:
 
-   An array argument: ~search("users", "_id", [1,2])~
+      1. An array argument: ~search("users", "_id", [1,2])~
 
-   String parsing: ~search("users", "_id", "1 OR 2")~
+      2. String parsing: ~search("users", "_id", "1 OR 2")~
 
-   Builder pattern: ~dataset("users").field("_id").value(1).value(2).search()~
+      3. Builder pattern: ~dataset("users").field("_id").value(1).value(2).search()~
 
-   These are all acceptable.
+      4. These are all acceptable.
 
-   Check whether their solution would produce duplicate results if a query is
-   done on ~tags~ that would match a ~Ticket~ twice.
+   2. Check whether their solution would produce duplicate results if a query is
+      done on ~tags~ that would match a ~Ticket~ twice. 
 
-   If the bug exists, ask the candidate to fix it.
+      1. If the bug exists, ask the candidate to fix it.
 
 ** Include related data
 
