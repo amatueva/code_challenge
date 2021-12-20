@@ -2,6 +2,7 @@ package ui
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"main.go/internal/types"
@@ -11,7 +12,7 @@ import (
 func PromptUser(ctx context.Context) (types.Query, error) {
 	var dataset string
 	var field string
-	var value string
+	var value interface{}
 
 	dataset = promptForDataset(ctx)
 
@@ -71,7 +72,7 @@ func promptForTicketField(ctx context.Context) string {
 	}
 }
 
-func promptForSearchValue(ctx context.Context) string {
+func promptForSearchValue(ctx context.Context) interface{} {
 	for {
 		go func() {
 			<-ctx.Done()
@@ -81,7 +82,12 @@ func promptForSearchValue(ctx context.Context) string {
 		fmt.Println("Type value you're seacring for")
 		fmt.Scanln(&value)
 		if validation.ValidateSearchValue(value) {
-			return value
+			//parse value as json and return it
+			var parsedValue interface{}
+			err := json.Unmarshal([]byte(value), &parsedValue)
+			if err == nil {
+				return parsedValue
+			}
 		}
 	}
 }

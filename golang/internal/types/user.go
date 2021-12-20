@@ -14,15 +14,15 @@ func (u User) Attributes() map[string]interface{} {
 	return u.Attrs
 }
 
-var UserFields []string = []string{"Id", "Name", "CreatedAt", "Verified"}
+var UserFields []string = []string{"_id", "name", "created_at", "verified"}
 
 func (u User) Show() {
 	var buf bytes.Buffer
 
 	templateBody :=
-		`                   _id: {{.Id}}
-	    created_at: {{.CreatedAt}}
-	          type: {{.Name}}
+		`                   _id: {{._id}}
+	    created_at: {{.created_at}}
+	          type: {{.name}}
 						
 `
 	tmpl, err := template.New("test").Parse(templateBody)
@@ -31,7 +31,7 @@ func (u User) Show() {
 		panic(err)
 	}
 
-	err = tmpl.Execute(&buf, u)
+	err = tmpl.Execute(&buf, u.Attrs)
 	if err != nil {
 		panic(err)
 	}

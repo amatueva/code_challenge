@@ -12,8 +12,9 @@ func Search(ctx context.Context, query types.Query) {
 
 	for _, record := range records {
 		attr := record.Attributes()
+
 		val, ok := attr[query.Field]
-		if val == query.Value && ok {
+		if ok && val == query.Value {
 			record.Show()
 		}
 	}
