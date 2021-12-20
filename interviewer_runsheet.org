@@ -24,10 +24,8 @@ setup process.
 
   2. Explain the problem:
 
-
-  1. We would like you to implement a search function for these two datasets.
-
-     1. The search query should specify:
+     1. We would like you to extend a search program. It searches either ~Users~
+        or ~Tickets~. The user will be prompted to enter:
 
         1. The dataset to search
 
@@ -35,26 +33,25 @@ setup process.
 
         3. The value we would like to match
 
-     2. No user interface is required.
-
-     3. Due to time constraints tests are optional. Feel free to write tests,
+     2. Due to time constraints tests are optional. Feel free to write tests,
         if you like. And please still write testable code. 
 
-     4. We don’t expect you to know your programming language perfectly. Feel
+     3. We don’t expect you to know your programming language perfectly. Feel
         free to google and to ask us questions like we were pairing. 
 
-  2. Explain that we will keep extending the problem until we run out of time.
-     They are not expected to finish the problem. We’re trying to find out
-     how they code and what it’ll be like to work together.
+  3. Explain that we will keep extending the problem until we run out of time.
+     They are not expected to finish all of the extensions. We’re just trying to
+     find out how they code and what it’ll be like to work together.
 
-  3. Confirm their environment is running
+  4. Confirm their environment is running
 
-     1. The candidate should run ~./scripts/run-tests~ and see a failing test.
+     1. The candidate should run ~./scripts/run-tests~ and see the tests pass.
 
      2. The skeleton does not use any gems outside of the standard library
         and should work with any version of ruby. 
 
-     3. Ask them to begin implementing.
+  5. Give them a little time to look through the codebase, and then explain the
+     first challenge.
 
 * Extending the challenge
 
@@ -87,23 +84,22 @@ setup process.
    assignee is a ~User~ who’s ~_id~ matches the ~assignee_id~ field on the
    ~Ticket~ .
 
-   When searching for a ~User~ each user *may* include tickets assigned to the user.
-   This requires searching for tickets that have an ~assignee_id~ field that
-   matches the ~_id~ of the ~User~.
+   When searching for a ~User~ each user *may* include tickets assigned to the
+   user. This requires searching for tickets that have an ~assignee_id~ field
+   that matches the ~_id~ of the ~User~.
 
    Beware: An infinite loop may occur if a ticket includes a user that includes
    a ticket that includes a user, etc.
 
 ** Search for individual tags
 
-   The tags field on a ~Ticket~ has many values. Ask the candidate to allow for a
-   query that includes any one of those values to match with the ~Ticket~.
+   The tags field on a ~Ticket~ has many values. Ask the candidate to allow for
+   a query that includes any one of those values to match with the ~Ticket~.
 
 ** Index the data
 
-   Initially most candidates will likely implement search using a loop or a
-   function like ~filter~. This type of search will get slower linearly as more
-   data is added.
+   Our staring implementations search using a loop or a function like ~filter~.
+   This type of search will get slower linearly as more data is added.
 
    1. Ask the candidate how they would make the search complete in a constant
       time no matter the size of the data (assuming it all fits in memory). 
