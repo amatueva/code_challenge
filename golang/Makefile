@@ -9,7 +9,7 @@ run:
 	go run cmd/recruiting_coding_challenge/main.go
 
 build:
-	go build -race "$(MAIN_PKG)"
+	go build -race cmd/recruiting_coding_challenge/main.go
 
 ensure_deps:
 	go mod tidy
@@ -27,5 +27,7 @@ install_devtools:
 	go install github.com/go-delve/delve/cmd/dlv
 	go install github.com/githubnemo/CompileDaemon
 
+test: export ENVIRONMENT ?= test
+
 test:
-	go test ./...
+	go test --cover ./...

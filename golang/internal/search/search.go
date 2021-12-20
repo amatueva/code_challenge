@@ -7,7 +7,14 @@ import (
 	"main.go/internal/types"
 )
 
-func Search(ctx context.Context, query types.Query) types.Record {
+func Search(ctx context.Context, query types.Query) {
 	records := loader.LoadData(ctx, query)
-	return records.FindOne(query.Field, query.Value)
+
+	for _, record := range records {
+		attr := record.Attributes()
+		val, ok := attr[query.Field]
+		if val == query.Value && ok {
+			record.Show()
+		}
+	}
 }

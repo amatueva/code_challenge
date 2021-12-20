@@ -1,6 +1,11 @@
 package types
 
+// type Record interface {
+// 	FindOne(field string, value string) Record
+// 	PrintRecord()
+// }
+
 type Record interface {
-	FindOne(field string, value string) Record
-	PrintRecord()
+	Attributes() map[string]interface{}
+	Show()
 }

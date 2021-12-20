@@ -21,8 +21,7 @@ func main() {
 		return
 	}
 
-	searchResult := search.Search(ctx, query)
-	searchResult.PrintRecord()
+	search.Search(ctx, query)
 }
 
 func enableGracefulShutdown(ctx context.Context) {
